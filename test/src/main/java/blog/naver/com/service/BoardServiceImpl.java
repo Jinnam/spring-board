@@ -42,4 +42,23 @@ public class BoardServiceImpl implements BoardService {
 		return returnMap;
 	}
 
+
+	@Override
+	public Board getBoardView(int boardNo) {
+		System.out.println("boardServiceImpl boardNo:" +boardNo);
+		return boardDao.selectBoardByKey(boardNo);
+	}
+
+	@Override
+	public int removeBoard(Board board) {
+		// TODO Auto-generated method stub
+		return boardDao.deleteBoard(board);
+	}
+
+	@Override
+	public int modifyBoard(Board board) {
+		// TODO Auto-generated method stub
+		return boardDao.updateBoard(board);
+	}
+
 }

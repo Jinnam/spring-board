@@ -4,6 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="blog.naver.com.BoardMapper">
+
+	<delete id="deleteBoard" parameterType="blog.naver.com.service.Board">
+		DELETE 
+		FROM board 
+		WHERE board_no=#{boardNo} AND board_pw=#{boardPw}
+	</delete>
+	
+	<update id="updateBoard" parameterType="blog.naver.com.service.Board">
+		UPDATE board 
+		SET 
+			board_title=#{boardTitle}, 
+			board_content=#{boardContent} 
+		WHERE board_no=#{boardNo} AND board_pw=#{boardPw}
+	</update>
+	
 	<select id="selectBoardListPerPage" parameterType="Map" resultType="blog.naver.com.service.Board">
 		SELECT 
 			board_no AS boardNo,
@@ -19,6 +34,17 @@
 		SELECT 
 			COUNT(*) 
 		FROM board
+	</select>
+	
+	<select id="selectBoardByKey" parameterType="int" resultType="blog.naver.com.service.Board">
+		SELECT 
+			board_no AS boardNo,
+			board_title AS boardTitle,
+			board_content AS boardContent,
+			board_user AS boardUser,
+			board_date AS boardDate
+		FROM board 
+		WHERE board_no=#{boardNo}
 	</select>
 	
  	<insert id="boardAdd" parameterType="blog.naver.com.service.Board">
