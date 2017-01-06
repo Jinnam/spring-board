@@ -19,36 +19,38 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	//수정 폼
 	@RequestMapping(value="/board/boardModify", method=RequestMethod.GET)
 	public String boardModify(Model model, @RequestParam(value="boardNo") int boardNo){
 		model.addAttribute("board",boardService.getBoardView(boardNo));
 		return "/board/boardModify";
 	}
-	
+	//수정 액션
 	@RequestMapping(value="/board/boardModify", method=RequestMethod.POST)
 	public String boardModify(Model model, Board board){
-		int boardNo=board.getBoardNo();
-		model.addAttribute(boardService.getBoardView(boardNo));
-		return "/board/boardView";
+		boardService.modifyBoard(board);
+//		int boardNo=board.getBoardNo();
+//		model.addAttribute(boardService.getBoardView(boardNo));
+		return "redirect:/board/boardView?boardNo="+board.getBoardNo();
 	}
-	
+	//삭제 폼
 	@RequestMapping(value="/board/boardRemove", method=RequestMethod.GET)
 	public String boardRemove(){
 		return "/board/boardRemove";
 	}
-	
+	//삭제 액션
 	@RequestMapping(value="/board/boardRemove", method=RequestMethod.POST)
 	public String boardRemove(Board board){
 		boardService.removeBoard(board);
 		return "redirect:/board/boardList";
 	}
-	
+	//상세 보기
 	@RequestMapping(value="/board/boardView")
 	public String boardView(Model model, @RequestParam(value="boardNo") int boardNo){
 		model.addAttribute("board",boardService.getBoardView(boardNo));
 		return "/board/boardView";
 	}
-	
+	//리스트
 	@RequestMapping(value="/board/boardList")
 	public String boardList(Model model,	//model = map을 상속받은 spring model
 			@RequestParam(value="currentPage", defaultValue="1") int currentPage){
@@ -60,16 +62,17 @@ public class BoardController {
 	
 		return "/board/boardList";
 	}
+	// 추가 폼
 	@RequestMapping(value="/board/boardAdd", method=RequestMethod.POST)
 	public String boardAdd(Board board){
 		System.out.println(board);
 		boardService.addBoard(board);
-		return "redirect:/board/boardList";	//forward WEB-INF�ȿ� .jsp�� ������	�̸��� ������ ���ε��� �ȴ�.
+		return "redirect:/board/boardList";
 	}
-	
+	// 추가 액션
 	@RequestMapping(value="/board/boardAdd", method=RequestMethod.GET)
 	public String boardAdd(){
-		return "/board/boardAdd";	//forward WEB-INF�ȿ� .jsp�� ������
+		return "/board/boardAdd";
 	}
 }
 
