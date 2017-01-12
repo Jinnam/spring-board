@@ -27,11 +27,12 @@ public class BoardController {
 	}
 	//수정 액션
 	@RequestMapping(value="/board/boardModify", method=RequestMethod.POST)
-	public String boardModify(Model model, Board board){
-		boardService.modifyBoard(board);
-//		int boardNo=board.getBoardNo();
-//		model.addAttribute(boardService.getBoardView(boardNo));
-		return "redirect:/board/boardView?boardNo="+board.getBoardNo();
+    public String boardModify(Model model, Board board) {
+        if(boardService.modifyBoard(board) != 1) {
+            model.addAttribute("board", board);
+            return "/board/boardModify";
+        }
+        return "redirect:/board/boardList";
 	}
 	//삭제 폼
 	@RequestMapping(value="/board/boardRemove", method=RequestMethod.GET)
